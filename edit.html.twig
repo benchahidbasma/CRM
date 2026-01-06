@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Facture{% endblock %}
+
+{% block body %}
+    <h1>Modifier la Facture</h1>
+
+    {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_label(form.montant, 'Montant') }}
+            {{ form_widget(form.montant, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.montant) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.sentAt, 'Date d\'envoi') }}
+            {{ form_widget(form.sentAt, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.sentAt) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.statut, 'Statut') }}
+            {{ form_widget(form.statut, {'attr': {'class': 'form-select'}}) }}
+            {{ form_errors(form.statut) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.customer, 'Client') }}
+            {{ form_widget(form.customer, {'attr': {'class': 'form-select'}}) }}
+            {{ form_errors(form.customer) }}
+        </div>
+
+        <button class="btn btn-primary">{{ button_label|default('Mettre à jour') }}</button>
+    {{ form_end(form) }}
+
+    <div class="mt-3">
+        <a href="{{ path('facture_index') }}" class="btn btn-secondary">← Retour à la liste</a>
+        <a href="{{ path('facture_show', {'id': facture.id}) }}" class="btn btn-info">Voir</a>
+        <a href="{{ path('facture_delete', {'id': facture.id}) }}" class="btn btn-danger"
+           onclick="return confirm('Supprimer cette facture ?');">Supprimer</a>
+    </div>
+{% endblock %}

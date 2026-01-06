@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Factures{% endblock %}
+
+{% block body %}
+    <h1>Factures</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Montant</th>
+                <th>Date d'envoi</th>
+                <th>Statut</th>
+                <th>Client</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for facture in factures %}
+            <tr>
+                <td>{{ facture.montant }} {{ facture.currency|default('MAD') }}</td>
+                <td>{{ facture.sentAt|date('d/m/Y H:i') }}</td>
+                <td>
+                    {% if facture.statut == 'Payée' %}
+                        <span class="badge bg-success">Payée</span>
+                    {% elseif facture.statut == 'En attente' %}
+                        <span class="badge bg-warning text-dark">En attente</span>
+                    {% else %}
+                        <span class="badge bg-danger">Annulée</span>
+                    {% endif %}
+                </td>
+                <td>{{ facture.customer.customerName }}</td>
+                <td>
+                    <a href="{{ path('facture_show', {'id': facture.id}) }}" class="btn btn-sm btn-secondary">Voir</a>
+                    <a href="{{ path('facture_edit', {'id': facture.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{{ path('facture_delete', {'id': facture.id}) }}" class="btn btn-sm btn-danger"
+                       onclick="return confirm('Supprimer cette facture ?');">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center text-muted">Aucune facture trouvée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('facture_new') }}" class="btn btn-success">+ Nouvelle Facture</a>
+{% endblock %}
